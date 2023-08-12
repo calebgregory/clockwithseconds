@@ -5,30 +5,24 @@ function pad(n) {
   return s.length < 2 ? `0${s}` : s
 }
 
-function time() {
-  const d = new Date()
-  return [d.getHours(), d.getMinutes(), d.getSeconds()].map(pad).join(':')
+function time(date /* Date */) {
+  return [date.getHours(), date.getMinutes(), date.getSeconds()].map(pad).join(':')
 }
 
-function time_until_beginning_of_next_second() {
-  const now = new Date()
+function time_until_beginning_of_next_second(now /* Date */) {
   return 1000 - now.getMilliseconds()
-}
-
-function draw_clock() {
-  CLOCK.innerText = time()
 }
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-async function main() {
-  draw_clock()
+async function main(now) {
+  CLOCK.innerText = time(now) // draw clock
 
-  await wait(time_until_beginning_of_next_second())
+  await wait(time_until_beginning_of_next_second(now))
 
-  main()
+  main(new Date())
 }
 
-main()
+main(new Date())
