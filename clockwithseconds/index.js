@@ -1,5 +1,3 @@
-console.log('hello')
-
 const CLOCK = document.querySelector('#clock')
 
 function pad(n) {
@@ -21,8 +19,16 @@ function draw_clock() {
   CLOCK.innerText = time()
 }
 
-draw_clock()
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
-setTimeout(() => {
+async function main() {
+  draw_clock()
+
+  await wait(time_until_beginning_of_next_second())
+
   setInterval(draw_clock, 1000)
-}, time_until_beginning_of_next_second())
+}
+
+main()
