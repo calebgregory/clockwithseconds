@@ -28,7 +28,7 @@ async function main() {
 
   await wait(time_until_beginning_of_next_second())
 
-  setInterval(draw_clock, 1000)
+  main()
 }
 
 main()
