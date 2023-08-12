@@ -7,35 +7,25 @@
 
 #import "clockwithsecondsView.h"
 
+#import <WebKit/WebKit.h>
+
 @implementation clockwithsecondsView
 
-- (instancetype)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
+- (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
-        [self setAnimationTimeInterval:1/30.0];
+        WKWebViewConfiguration *webViewConfig = [[WKWebViewConfiguration alloc] init];
+        WKWebView *webView = [[WKWebView alloc] initWithFrame:self.bounds configuration:webViewConfig];
+        [self addSubview:webView];
+
+        // Load your locally-defined index.html
+        NSString *htmlFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"index" ofType:@"html"];
+        NSURL *htmlURL = [NSURL fileURLWithPath:htmlFilePath];
+        [webView loadFileURL:htmlURL allowingReadAccessToURL:htmlURL];
     }
+
     return self;
-}
-
-- (void)startAnimation
-{
-    [super startAnimation];
-}
-
-- (void)stopAnimation
-{
-    [super stopAnimation];
-}
-
-- (void)drawRect:(NSRect)rect
-{
-    [super drawRect:rect];
-}
-
-- (void)animateOneFrame
-{
-    return;
 }
 
 - (BOOL)hasConfigureSheet
